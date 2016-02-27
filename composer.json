@@ -13,5 +13,8 @@
             "name": "Gergely Brautigam",
             "email": "skarlso777@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-0": { "": "src/" }
+    }
 }
