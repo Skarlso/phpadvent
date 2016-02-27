@@ -1,0 +1,17 @@
+{
+    "name": "skarlso/phpadvent",
+    "description": "Advent of Code problems solved in PHP",
+    "require": {
+        "symfony/console": "^3.0"
+    },
+    "require-dev": {
+        "symfony/console": "^3.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gergely Brautigam",
+            "email": "skarlso777@gmail.com"
+        }
+    ]
+}
