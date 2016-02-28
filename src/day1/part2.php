@@ -1,4 +1,5 @@
 <?php
+require "../helpers/timer.inc";
 //place this before any script you want to calculate time
 $time_start = microtime(true);
 
@@ -20,8 +21,5 @@ foreach($chars as $char){
 
 printf("Floor: %d\n", $floor);
 printf("Basement Position: %d\n", $basementPosition);
-$time_end = microtime(true);
-$execution_time = $time_end - $time_start;
 
-//execution time of the script
-printf("Total Execution Time: %f\n", $execution_time);
+DisplayElapsedTime($time_start);
