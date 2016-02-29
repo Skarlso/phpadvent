@@ -7,7 +7,9 @@ $handle = @fopen("input.txt", "r");
 
 if ($handle) {
     while (($buffer = fgets($handle, 4096)) !== false) {
-        echo $buffer;
+        $digits = explode("x", $buffer);
+        sort($digits, SORT_NUMERIC);
+
     }
     if (!feof($handle)) {
         echo "Error: unexpected fgets() fail\n";
