@@ -32,7 +32,7 @@ foreach (str_split($content) as $c) {
                 $rx++;
             break;
         }
-        $houses[$rx][$ry] = true;
+        $houses[$rx][$ry] = 1;
     } else {
         switch ($c) {
             case '^':
@@ -48,7 +48,7 @@ foreach (str_split($content) as $c) {
                 $x++;
             break;
         }
-        $houses[$x][$y] = true;
+        $houses[$x][$y] = 1;
     }
     $count++;
 }
