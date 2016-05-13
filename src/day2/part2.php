@@ -25,12 +25,9 @@ $total = 0;
 if ($handle) {
     while (($buffer = fgets($handle, 4096)) !== false) {
         $digits = explode("x", $buffer);
-        $l = $digits[0];
-        $w = $digits[1];
-        $h = $digits[2];
         sort($digits, SORT_NUMERIC);
-        $total += (2 * $l * $w) + (2 * $w * $h) + (2 * $h * $l);
-        $total += ($digits[0] * $digits[1]);
+        $total += (2 * $digits[0]) + (2 * $digits[1]);
+        $total += ($digits[0] * $digits[1] * $digits[2]);
     }
     if (!feof($handle)) {
         echo "Error: unexpected fgets() fail\n";
