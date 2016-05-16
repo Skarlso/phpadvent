@@ -1,2 +1,2 @@
 # phpadvent
-Advent Of Code problems implemented in PHP
+Advent Of Code problems implemented in PHP.
