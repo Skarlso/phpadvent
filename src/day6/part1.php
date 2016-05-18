@@ -34,18 +34,18 @@ if ($handle) {
         if ($split[0] === "toggle") {
             $numberOne = explode(",", $split[1]);
             $numberTwo = explode(",", $split[3]);
-            $fromX = $numberOne[0]+1;
-            $toX = $numberTwo[0]+1;
-            $fromY = $numberOne[1]+1;
-            $toY = $numberTwo[1]+1;
+            $fromX = $numberOne[0] + 1;
+            $toX = $numberTwo[0] + 1;
+            $fromY = $numberOne[1] + 1;
+            $toY = $numberTwo[1] + 1;
             $toggle = TRUE;
         } elseif ($split[0] === "turn") {
             $numberOne = explode(",", $split[2]);
             $numberTwo = explode(",", $split[4]);
-            $fromX = $numberOne[0]+1;
-            $toX = $numberTwo[0]+1;
-            $fromY = $numberOne[1]+1;
-            $toY = $numberTwo[1]+1;
+            $fromX = $numberOne[0] + 1;
+            $toX = $numberTwo[0] + 1;
+            $fromY = $numberOne[1] + 1;
+            $toY = $numberTwo[1] + 1;
             $value = $split[1] === "on" ? 1 : 0;
         }
 
