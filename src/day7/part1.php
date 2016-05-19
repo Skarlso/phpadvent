@@ -8,13 +8,14 @@ $time_start = microtime(true);
  */
 class Equation
 {
-    private $hasValue, $value, $operator;
+    private $hasValue, $value, $operands, $operator;
 
-    function __construct($hasValue, $value, $operator)
+    function __construct($hasValue, $value, $operands, $operator)
     {
-        $this->$hasValue = $hasValue;
-        $this->$value = $value;
-        $this->$operator = $operator;
+        $this->hasValue = $hasValue;
+        $this->value = $value;
+        $this->operands = $operands;
+        $this->operator = $operator;
     }
 
     public function getHasValue()
@@ -30,8 +31,39 @@ class Equation
 
 
 $lines = file("input.txt");
+$equations = [];
 
+
+// Pop the last element from the array, and that will be the dictionary's key.
 foreach ($lines as $line)
 {
-    printf("%s", $line);
+    $split = explode(" ", $line);
+    $result = array_pop($split);
+    $e = NULL;
+    switch (count($split))
+    {
+        case 2:
+            $value = array_shift($split);
+            if (is_numeric($value)) {
+                $e = new Equation(TRUE, intval($value), NULL, NULL);
+            } else {
+                $e = new Equation(FALSE, 0, [$value], NULL);
+            }
+            break;
+
+        case 3:
+            $operator = array_shift($split);
+            $operands = [array_shift($split)];
+            $e = new Equation(FALSE, 0, $operands, $operator);
+            break;
+
+        case 4:
+            $operator = $split[1];
+            $operands = [$split[0], $split[2]];
+            $e = new Equation(FALSE, 0, $operands, $operator);
+            break;
+    }
+    $equations[$result] = $e;
 }
+
+print_r($equations);
