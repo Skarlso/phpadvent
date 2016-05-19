@@ -76,7 +76,6 @@ foreach ($lines as $line)
 
 function value($v) {
     global $equations;
-
     if (is_numeric($v)) {
         return $v;
     }
@@ -106,11 +105,11 @@ function value($v) {
         case 'RSHIFT':
             $v = value($equations[$v]->getOperands()[0]) >> value($equations[$v]->getOperands()[1]);
             break;
-        default:
+        case NULL:
             $v = value($equations[$v]->getOperands()[0]);
     }
 
-    return $v;
+    // return $v;
 }
 
 print(value('a'));
