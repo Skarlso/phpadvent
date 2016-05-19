@@ -76,6 +76,11 @@ foreach ($lines as $line)
 
 function value($v) {
     global $equations;
+
+    if (is_numeric($v)) {
+        return $v;
+    }
+
     if ($equations[$v]->getHasValue()) {
         $v = $equations[$v]->getValue();
         return $v;
