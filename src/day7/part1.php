@@ -20,12 +20,22 @@ class Equation
 
     public function getHasValue()
     {
-        return $this->$hasValue;
+        return $this->hasValue;
     }
 
     public function getValue()
     {
-        return $this->$value;
+        return $this->value;
+    }
+
+    public function getOperator()
+    {
+        return $this->operator;
+    }
+
+    public function getOperands()
+    {
+        return $this->operands;
     }
 }
 
@@ -33,17 +43,15 @@ class Equation
 $lines = file("input.txt");
 $equations = [];
 
-
-// Pop the last element from the array, and that will be the dictionary's key.
 foreach ($lines as $line)
 {
     $split = explode(" ", $line);
-    $result = array_pop($split);
+    $result = trim(array_pop($split));
     $e = NULL;
     switch (count($split))
     {
         case 2:
-            $value = array_shift($split);
+            $value = trim(array_shift($split));
             if (is_numeric($value)) {
                 $e = new Equation(TRUE, intval($value), NULL, NULL);
             } else {
@@ -66,4 +74,38 @@ foreach ($lines as $line)
     $equations[$result] = $e;
 }
 
-print_r($equations);
+function value($v) {
+    global $equations;
+    if ($equations[$v]->getHasValue()) {
+        $v = $equations[$v]->getValue();
+        return $v;
+    }
+
+    switch ($equations[$v]->getOperator()) {
+        case 'NOT':
+            $v = 1 ^ value($equations[$v]->getOperands()[0]);
+            break;
+
+        case 'AND':
+            $v = value($equations[$v]->getOperands()[0]) & value($equations[$v]->getOperands()[1]);
+            break;
+
+        case 'OR':
+            $v = value($equations[$v]->getOperands()[0]) | value($equations[$v]->getOperands()[1]);
+            break;
+
+        case 'LSHIFT':
+            $v = value($equations[$v]->getOperands()[0]) << value($equations[$v]->getOperands()[1]);
+            break;
+
+        case 'RSHIFT':
+            $v = value($equations[$v]->getOperands()[0]) >> value($equations[$v]->getOperands()[1]);
+            break;
+        default:
+            $v = value($equations[$v]->getOperands()[0]);
+    }
+
+    return $v;
+}
+
+print(value('a'));
