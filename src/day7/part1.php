@@ -3,12 +3,9 @@ require "../helpers/timer.inc";
 
 $time_start = microtime(true);
 
-/**
- *
- */
 class Equation
 {
-    private $hasValue, $value, $operands, $operator;
+    private $hasValue = FALSE, $value = 0, $operands = NULL, $operator = NULL;
 
     function __construct($hasValue, $value, $operands, $operator)
     {
@@ -28,6 +25,16 @@ class Equation
         return $this->value;
     }
 
+    public function setHasValue($v)
+    {
+        $this->hasValue = $v;
+    }
+
+    public function setValue($v)
+    {
+        $this->value = $v;
+    }
+
     public function getOperator()
     {
         return $this->operator;
@@ -40,7 +47,7 @@ class Equation
 }
 
 
-$lines = file("input.txt");
+$lines = file("input.txt", FILE_IGNORE_NEW_LINES);
 $equations = [];
 
 foreach ($lines as $line)
@@ -53,9 +60,9 @@ foreach ($lines as $line)
         case 2:
             $value = trim(array_shift($split));
             if (is_numeric($value)) {
-                $e = new Equation(TRUE, intval($value), NULL, NULL);
+                $e = new Equation(TRUE, intval($value), [$result], "SET");
             } else {
-                $e = new Equation(FALSE, 0, [$value], NULL);
+                $e = new Equation(FALSE, 0, [$value], "SET");
             }
             break;
 
@@ -74,42 +81,43 @@ foreach ($lines as $line)
     $equations[$result] = $e;
 }
 
-function value($v) {
+function value(&$eq) {
+    print_r($eq);
+    if ($eq->getHasValue()) {
+        return $eq->getValue();
+    }
+
     global $equations;
-    if (is_numeric($v)) {
-        return $v;
-    }
+    $v = 0;
 
-    if ($equations[$v]->getHasValue()) {
-        $v = $equations[$v]->getValue();
-        return $v;
-    }
-
-    switch ($equations[$v]->getOperator()) {
+    switch ($eq->getOperator()) {
         case 'NOT':
-            $v = 1 ^ value($equations[$v]->getOperands()[0]);
+            $v = ~value($equations[$eq->getOperands()[0]]);
             break;
 
         case 'AND':
-            $v = value($equations[$v]->getOperands()[0]) & value($equations[$v]->getOperands()[1]);
+            $v = value($equations[$eq->getOperands()[0]]) & value($equations[$eq->getOperands()[1]]);
             break;
 
         case 'OR':
-            $v = value($equations[$v]->getOperands()[0]) | value($equations[$v]->getOperands()[1]);
+            $v = value($equations[$eq->getOperands()[0]]) | value($equations[$eq->getOperands()[1]]);
             break;
 
         case 'LSHIFT':
-            $v = value($equations[$v]->getOperands()[0]) << value($equations[$v]->getOperands()[1]);
+            $v = value($equations[$eq->getOperands()[0]]) << value($equations[$eq->getOperands()[1]]);
             break;
 
         case 'RSHIFT':
-            $v = value($equations[$v]->getOperands()[0]) >> value($equations[$v]->getOperands()[1]);
+            $v = value($equations[$eq->getOperands()[0]]) >> value($equations[$eq->getOperands()[1]]);
             break;
-        case NULL:
-            $v = value($equations[$v]->getOperands()[0]);
+        case 'SET':
+            $v = value($equations[$eq->getOperands()[0]]);
+            break;
     }
 
-    // return $v;
+    $eq->setValue($v);
+    $eq->setHasValue(TRUE);
+    return $eq;
 }
 
-print(value('a'));
+print_r(value($equations['a']));
