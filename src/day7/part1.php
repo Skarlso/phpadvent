@@ -60,7 +60,7 @@ foreach ($lines as $line)
         case 2:
             $value = trim(array_shift($split));
             if (is_numeric($value)) {
-                $e = new Equation(TRUE, intval($value), [$result], "SET");
+                $e = new Equation(TRUE, intval($value), [$value], "SET");
             } else {
                 $e = new Equation(FALSE, 0, [$value], "SET");
             }
@@ -81,8 +81,7 @@ foreach ($lines as $line)
     $equations[$result] = $e;
 }
 
-function value(&$eq) {
-    print_r($eq);
+function value($eq) {
     if ($eq->getHasValue()) {
         return $eq->getValue();
     }
@@ -96,19 +95,51 @@ function value(&$eq) {
             break;
 
         case 'AND':
-            $v = value($equations[$eq->getOperands()[0]]) & value($equations[$eq->getOperands()[1]]);
+            $op1 = 0;
+            $op2 = 0;
+            if (is_numeric($eq->getOperands()[0]))
+            {
+                $op1 = intval($eq->getOperands()[0]);
+            } else {
+                $op1 = value($equations[$eq->getOperands()[0]]);
+            }
+
+            if (is_numeric($eq->getOperands()[1]))
+            {
+                $op2 = intval($eq->getOperands()[1]);
+            } else {
+                $op2 = value($equations[$eq->getOperands()[1]]);
+            }
+
+            $v = $op1 & $op2;
             break;
 
         case 'OR':
-            $v = value($equations[$eq->getOperands()[0]]) | value($equations[$eq->getOperands()[1]]);
+            $op1 = 0;
+            $op2 = 0;
+            if (is_numeric($eq->getOperands()[0]))
+            {
+                $op1 = intval($eq->getOperands()[0]);
+            } else {
+                $op1 = value($equations[$eq->getOperands()[0]]);
+            }
+
+            if (is_numeric($eq->getOperands()[1]))
+            {
+                $op2 = intval($eq->getOperands()[1]);
+            } else {
+                $op2 = value($equations[$eq->getOperands()[1]]);
+            }
+
+            $v = $op1 | $op2;
             break;
 
         case 'LSHIFT':
-            $v = value($equations[$eq->getOperands()[0]]) << value($equations[$eq->getOperands()[1]]);
+            $v = value($equations[$eq->getOperands()[0]]) << intval($eq->getOperands()[1]);
             break;
 
         case 'RSHIFT':
-            $v = value($equations[$eq->getOperands()[0]]) >> value($equations[$eq->getOperands()[1]]);
+            $v = value($equations[$eq->getOperands()[0]]) >> intval($eq->getOperands()[1]);
             break;
         case 'SET':
             $v = value($equations[$eq->getOperands()[0]]);
@@ -117,7 +148,7 @@ function value(&$eq) {
 
     $eq->setValue($v);
     $eq->setHasValue(TRUE);
-    return $eq;
+    return $v;
 }
 
 print_r(value($equations['a']));
