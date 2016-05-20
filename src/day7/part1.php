@@ -5,7 +5,7 @@ $time_start = microtime(true);
 
 class Equation
 {
-    private $hasValue = FALSE, $value = 0, $operands = NULL, $operator = NULL;
+    public $hasValue = FALSE, $value = 0, $operands = NULL, $operator = NULL;
 
     function __construct($hasValue, $value, $operands, $operator)
     {
@@ -13,36 +13,6 @@ class Equation
         $this->value = $value;
         $this->operands = $operands;
         $this->operator = $operator;
-    }
-
-    public function getHasValue()
-    {
-        return $this->hasValue;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    public function setHasValue($v)
-    {
-        $this->hasValue = $v;
-    }
-
-    public function setValue($v)
-    {
-        $this->value = $v;
-    }
-
-    public function getOperator()
-    {
-        return $this->operator;
-    }
-
-    public function getOperands()
-    {
-        return $this->operands;
     }
 }
 
@@ -82,73 +52,46 @@ foreach ($lines as $line)
 }
 
 function value($eq) {
-    if ($eq->getHasValue()) {
-        return $eq->getValue();
+    if ($eq->hasValue) {
+        return $eq->value;
     }
 
     global $equations;
     $v = 0;
 
-    switch ($eq->getOperator()) {
+    switch ($eq->operator) {
         case 'NOT':
-            $v = ~value($equations[$eq->getOperands()[0]]);
+            $v = ~value($equations[$eq->operands[0]]);
             break;
 
         case 'AND':
-            $op1 = 0;
-            $op2 = 0;
-            if (is_numeric($eq->getOperands()[0]))
-            {
-                $op1 = intval($eq->getOperands()[0]);
-            } else {
-                $op1 = value($equations[$eq->getOperands()[0]]);
-            }
-
-            if (is_numeric($eq->getOperands()[1]))
-            {
-                $op2 = intval($eq->getOperands()[1]);
-            } else {
-                $op2 = value($equations[$eq->getOperands()[1]]);
-            }
-
+            $op1 = is_numeric($eq->operands[0]) ? intval($eq->operands[0]) : value($equations[$eq->operands[0]]);
+            $op2 = is_numeric($eq->operands[1]) ? intval($eq->operands[1]) : value($equations[$eq->operands[1]]);
             $v = $op1 & $op2;
             break;
 
         case 'OR':
-            $op1 = 0;
-            $op2 = 0;
-            if (is_numeric($eq->getOperands()[0]))
-            {
-                $op1 = intval($eq->getOperands()[0]);
-            } else {
-                $op1 = value($equations[$eq->getOperands()[0]]);
-            }
-
-            if (is_numeric($eq->getOperands()[1]))
-            {
-                $op2 = intval($eq->getOperands()[1]);
-            } else {
-                $op2 = value($equations[$eq->getOperands()[1]]);
-            }
-
+            $op1 = is_numeric($eq->operands[0]) ? intval($eq->operands[0]) : value($equations[$eq->operands[0]]);
+            $op2 = is_numeric($eq->operands[1]) ? intval($eq->operands[1]) : value($equations[$eq->operands[1]]);
             $v = $op1 | $op2;
             break;
 
         case 'LSHIFT':
-            $v = value($equations[$eq->getOperands()[0]]) << intval($eq->getOperands()[1]);
+            $v = value($equations[$eq->operands[0]]) << intval($eq->operands[1]);
             break;
 
         case 'RSHIFT':
-            $v = value($equations[$eq->getOperands()[0]]) >> intval($eq->getOperands()[1]);
+            $v = value($equations[$eq->operands[0]]) >> intval($eq->operands[1]);
             break;
         case 'SET':
-            $v = value($equations[$eq->getOperands()[0]]);
+            $v = value($equations[$eq->operands[0]]);
             break;
     }
 
-    $eq->setValue($v);
-    $eq->setHasValue(TRUE);
+    $eq->value = $v;
+    $eq->hasValue = TRUE;
     return $v;
 }
 
-print_r(value($equations['a']));
+print(value($equations['a']) . "\n");
+DisplayElapsedTime($time_start);
