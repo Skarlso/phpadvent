@@ -9,7 +9,6 @@ foreach ($lines as $line) {
     $totalChar = strlen($line);
     $line = stripslashes($line);
     $line = str_replace(array('"'), '', $line);
-    // printf("%s\n", $line);
     $memoryChar = strlen($line);
     $total += $totalChar - $memoryChar;
 }
