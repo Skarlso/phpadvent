@@ -21,8 +21,28 @@ foreach ($lines as $line) {
 
 print(lookupDistance("Snowdin", "AlphaCentauri") . "\n");
 
-function permute() {
+$arr = [1,2,3];
+print_r(permute($arr, count($arr)));
 
+function permute($arr, $n) {
+    if ($n == 1) {
+        return $arr;
+    }
+
+    for ($i=0; $i < $n; $i++) {
+        permute($arr, $n - 1);
+        if ($n & 1 == 1) {
+            $tmp = $arr[$i];
+            $arr[$i] = $arr[$n-1];
+            $arr[$n-1] = $tmp;
+        } else {
+            $tmp = $arr[0];
+            $arr[0] = $arr[$n-1];
+            $arr[$n-1] = $tmp;
+        }
+    }
+
+    permute($arr, $n - 1);
 }
 
 function lookupDistance($from, $to) {
