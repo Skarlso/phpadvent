@@ -49,21 +49,16 @@ function permute(&$arr, $n) {
     global $routes;
     if ($n == 1) {
         array_push($routes, $arr);
-    } else {
-        for ($i=0; $i < $n-1; $i++) {
-            permute($arr, $n - 1);
-            if ($n & 1 == 0) {
-                $tmp = $arr[$i];
-                $arr[$i] = $arr[$n-1];
-                $arr[$n-1] = $tmp;
-            } else {
-                $tmp = $arr[0];
-                $arr[0] = $arr[$n-1];
-                $arr[$n-1] = $tmp;
-            }
-        }
+    }
 
+    for ($i=0; $i < $n; $i++) {
+        $tmp = $arr[$i];
+        $arr[$i] = $arr[$n-1];
+        $arr[$n-1] = $tmp;
         permute($arr, $n - 1);
+        $tmp = $arr[0];
+        $arr[0] = $arr[$n-1];
+        $arr[$n-1] = $tmp;
     }
 }
 
@@ -75,3 +70,5 @@ function lookupDistance($from, $to) {
         }
     }
 }
+
+DisplayElapsedTime($time_start);
