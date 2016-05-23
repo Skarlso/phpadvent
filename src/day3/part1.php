@@ -33,9 +33,7 @@ foreach (str_split($content) as $c) {
 
 $total = 0;
 foreach ($houses as $value) {
-    foreach ($value as $v) {
-        $total++;
-    }
+    $total += count($value);
 }
 printf("Total: %d\n", $total);
 DisplayElapsedTime($time_start);
