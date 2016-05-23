@@ -9,7 +9,7 @@ $floor = 0;
 $index = 0;
 $basementPosition = -1;
 
-for ($i=0; $i < strlen($movement); $i++) {
+for ($i=0, $_l = strlen($movement); $i < $_l; $i++) {
     $movement[$i] == ')' ? $floor-- : $floor++;
     if ($floor == -1 && $basementPosition == -1) {
         $basementPosition = $index;

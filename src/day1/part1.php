@@ -8,7 +8,7 @@ $movement = file_get_contents("input.txt");
 $floor = 0;
 $chars = str_split($movement);
 
-for ($i=0; $i < strlen($movement); $i++) {
+for ($i=0, $_l = strlen($movement); $i < $_l; $i++) {
     $movement[$i] == ')' ? $floor-- : $floor++;
 }
 
