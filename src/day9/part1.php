@@ -16,6 +16,7 @@ foreach ($lines as $line) {
 
     // Add the backroute as well to the same route.
     $loc2 = array_key_exists($split[2], $locations) ? $locations[$split[2]] : [];
+    // Rather than creating this, use $locations[$from][$to] = distance. Lookup after this is trivial.
     array_push($loc2, [$split[0], $split[4]]);
     $locations[$split[2]] = $loc2;
 
