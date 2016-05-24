@@ -23,21 +23,21 @@ foreach ($lines as $line) {
     }
 }
 
-getMinimumDistance();
+getMaximumDistance();
 
-function getMinimumDistance() {
+function getMaximumDistance() {
     global $keys, $locations;
-    $min = 1677215;
+    $max = 0;
     foreach (permute($keys) as $r) {
         $total = 0;
         for ($i = 0; $i < count($r) - 1; $i++) {
             $total += $locations[$r[$i]][$r[$i + 1]];
         }
-        if ($total < $min) {
-            $min = $total;
+        if ($total >= $max) {
+            $max = $total;
         }
     }
-    print($min . "\n");
+    print($max . "\n");
 }
 
 function permute(array $satck) {
