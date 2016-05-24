@@ -8,34 +8,31 @@ def permutations(iterable, r=None):
         return
     indices = range(n)
     cycles = range(n, n-r, -1)
-    yield tuple(pool[i] for i in indices[:r])
+    arr = []
+    for i in indices[:r]:
+        print(i)
+        arr.append(pool[i])
+
+    yield tuple(arr)
     while n:
         for i in reversed(range(r)):
             cycles[i] -= 1
-            print(cycles[i])
             if cycles[i] == 0:
-                # print("before", indices)
-                # print("head", indices[i:])
-                # print("front", indices[i+1:])
-                # print("back", indices[i:i+1])
-                # print("tail", indices[i+1:] + indices[i:i+1])
+                # It's i:i+1 so it becomes an array and it can be added together.
                 indices[i:] = indices[i+1:] + indices[i:i+1]
-                # print("after", indices)
                 cycles[i] = n - i
-                print("No break")
+                print(indices)
             else:
                 j = cycles[i]
-                print(indices)
                 indices[i], indices[-j] = indices[-j], indices[i]
                 yield tuple(pool[i] for i in indices[:r])
-                print("break")
+                print(indices)
                 break
         else:
-
             print("return is called")
             return
 
 
-arr = [1,2,3]
+arr = [1,2,3,4]
 for v in permutations(arr):
-    print('===')
+    print("---")

@@ -1,4 +1,44 @@
 <?php
+require "../helpers/timer.inc";
+
+$time_start = microtime(true);
+
+$lines = file("input.txt", FILE_IGNORE_NEW_LINES);
+
+$locations = [[]];
+$keys = [];
+
+foreach ($lines as $line) {
+    $split = explode(" ", $line);
+    $locations[$split[0]][$split[2]] = $split[4];
+
+    // Add the backroute as well to the same route.
+    $locations[$split[2]][$split[0]] = $split[4];
+
+    if (!in_array($split[0], $keys)) {
+        array_push($keys, $split[0]);
+    }
+    if (!in_array($split[2], $keys)) {
+        array_push($keys, $split[2]);
+    }
+}
+
+getMinimumDistance();
+
+function getMinimumDistance() {
+    global $keys, $locations;
+    $min = 1677215;
+    foreach (permute($keys) as $r) {
+        $total = 0;
+        for ($i = 0; $i < count($r) - 1; $i++) {
+            $total += $locations[$r[$i]][$r[$i + 1]];
+        }
+        if ($total < $min) {
+            $min = $total;
+        }
+    }
+    print($min . "\n");
+}
 
 function permute($arr) {
     $n = count($arr);
@@ -44,7 +84,4 @@ function permute($arr) {
     }
 }
 
-$arr = [1,2,3,4,5,6,7,8];
-foreach (permute($arr) as $value) {
-    echo implode(',', $value) . "\n";
-}
+DisplayElapsedTime($time_start);
