@@ -16,6 +16,9 @@ function permute($arr) {
             $cycles[$i] -= 1;
             // echo "cycle[i]: ", $cycles[$i], "\n";
             if ($cycles[$i] == 0) {
+                // [indices[$i]] -> needs to be one element but is handled as an array so merge can work.
+                // also, this is the part in python indices[i:i+1] <- this is also one element
+                // but handled as an array so array + array works.
                 $indices = array_merge(
                     array_slice($indices, 0, $i),
                     array_slice($indices, $i+1),
