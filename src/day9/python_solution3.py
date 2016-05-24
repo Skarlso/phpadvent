@@ -1,6 +1,6 @@
 import sys
 from itertools import permutations
-from datetime import datetime
+import time
 
 places = set()
 distances = dict()
@@ -16,8 +16,8 @@ longest = 0
 for items in permutations(places):
     dist = sum(map(lambda x, y: distances[x][y], items[:-1], items[1:]))
     shortest = min(shortest, dist)
-    longest = max(longest, dist)
+    # longest = max(longest, dist)
 
-startTime = datetime.now()
+start_time = time.time()
 print("shortest: %d" % (shortest))
-print(datetime.now() - startTime)
+print("--- %f seconds ---" % (time.time() - start_time))
