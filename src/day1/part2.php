@@ -9,9 +9,8 @@ $floor = 0;
 $index = 0;
 $basementPosition = -1;
 
-$chars = str_split($movement);
-foreach($chars as $char){
-    $char == ')' ? $floor-- : $floor++;
+for ($i=0, $_l = strlen($movement); $i < $_l; $i++) {
+    $movement[$i] == ')' ? $floor-- : $floor++;
     if ($floor == -1 && $basementPosition == -1) {
         $basementPosition = $index;
     }
