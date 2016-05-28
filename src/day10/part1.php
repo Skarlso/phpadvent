@@ -5,7 +5,7 @@ $time_start = microtime(true);
 
 $input = "1321131112";
 
-for ($i=0; $i < 40; $i++) {
+for ($i=0; $i < 50; $i++) {
     $count = 1;
     $newInput = "";
     for ($j=0, $_l = strlen($input); $j < $_l; $j++) {
@@ -25,3 +25,4 @@ for ($i=0; $i < 40; $i++) {
 }
 
 printf("%s\n", strlen($input));
+DisplayElapsedTime($time_start);
