@@ -14,3 +14,12 @@ function overlapping($pass) {
     }
     return false;
 }
+
+function matchCharactersNotPresent($pass) {
+    $pattern = '/[i|o|l]/';
+    preg_match($pattern, $pass, $matches);
+    if (count($matches) > 0) {
+        return false;
+    }
+    return true;    
+}
