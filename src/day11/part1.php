@@ -4,8 +4,10 @@ require "../helpers/timer.inc";
 $time_start = microtime(true);
 
 $start = "hxbxwxba";
-
-
+for (;;) {
+    $start = increment($start, strlen($start) - 1);
+    echo $start, "\n";
+}
 
 function overlapping($pass) {
     $pattern = '/(.)\1/';
@@ -28,8 +30,8 @@ function matchCharactersNotPresent($pass) {
 function increment($pass, $n) {
     $p = $pass[$n];
     if ($n == 0) {
-        if ($p == 'z') {
-            $p = 'a';
+        if ($p == "z") {
+            $p = "a";
         } else {
             $p++;
         }
@@ -37,8 +39,8 @@ function increment($pass, $n) {
         return $pass;
     }
 
-    if ($p == 'z') {
-        $p = 'a';
+    if ($p == "z") {
+        $p = "a";
         $pass[$n] = $p;
         increment($pass, $n - 1);
     } else {
