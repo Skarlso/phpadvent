@@ -26,13 +26,25 @@ function matchCharactersNotPresent($pass) {
 }
 
 function increment($pass, $n) {
-    $z = ord('z');
-    $a = ord('a');
-    //Use chr to go the other way.
+    $p = $pass[$n];
     if ($n == 0) {
-        $p = ord($pass[$n]);
-        $p++;
-        $p = $a % $z;
-        //TODO: To be continued.
+        if ($p == 'z') {
+            $p = 'a';
+        } else {
+            $p++;
+        }
+        $pass[$n] = $p;
+        return $pass;
     }
+
+    if ($p == 'z') {
+        $p = 'a';
+        $pass[$n] = $p;
+        increment($pass, $n - 1);
+    } else {
+        $p++;
+    }
+
+    $pass[$n] = $p;
+    return $pass;
 }
