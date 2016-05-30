@@ -24,7 +24,7 @@ function matchSequentialIncreasing($pass) {
 }
 
 function overlapping($pass) {
-    $pattern = '/(.)\1/';
+    $pattern = '/(.)\1.*(.)\2/';
     preg_match($pattern, $pass, $matches);
     if (count($matches) > 0) {
         return true;
