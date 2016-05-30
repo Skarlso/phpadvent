@@ -2,10 +2,10 @@
 
 $start = "hxbxwxba";
 for (;;) {
-    if (matchCharactersNotPresent($start) && overlapping($start) && matchSequentialIncreasing($start)) {
+    $start = increment($start, strlen($start) - 1);
+    if (overlapping($start) && matchSequentialIncreasing($start)) {
         break;
     }
-    $start = increment($start, strlen($start) - 1);
 }
 
 echo $start, "\n";
@@ -49,6 +49,9 @@ function increment(&$pass, $n) {
         } else {
             $p++;
         }
+        if (in_array($p, array('i', 'o', 'l'))) {
+            $p++;
+        }
         $pass[$n] = $p;
         return $pass;
     }
@@ -61,6 +64,9 @@ function increment(&$pass, $n) {
         $p++;
     }
 
+    if (in_array($p, array('i', 'o', 'l'))) {
+        $p++;
+    }
     $pass[$n] = $p;
     return $pass;
 }
