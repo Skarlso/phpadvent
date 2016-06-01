@@ -1,5 +1,6 @@
 #!/bin/bash
 # yitsushi
+# ./bench.sh 100 php part1.php part1_v2.php
 number=$1
 shift
 executor=$1
