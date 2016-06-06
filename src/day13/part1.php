@@ -32,10 +32,9 @@ foreach (permute($keys) as $order) {
 
     for ($i=0, $_l = count($order); $i < $_l; $i++) {
         $current = $i;
-        $left = $i - 1;
+        $left = ($i - 1) % $_l;
         $right = ($i + 1) % $_l;
 
-        $left = $left % $_l;
         if ($left < 0)
         {
             $left += abs($_l);
