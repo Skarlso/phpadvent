@@ -10,19 +10,16 @@ $seatings = [];
 
 
 foreach ($lines as $line) {
-    // Could do some preg_grep magic here with matches, but splitting is faster.
-    $split = explode(" ", $line);
-    $gainLose = $split[2];
-    $num = $split[3];
-    $nextTo = trim(array_pop($split), ".");
+    list($name, $_, $gainLose, $num, $_, $_, $_, $_, $_, $_, $nextTo) = explode(' ', $line);
+    $nextTo = trim($nextTo, ".");
     if ($gainLose === "gain") {
-        $seatings[$split[0]][$nextTo] = intval($num);
+        $seatings[$name][$nextTo] = intval($num);
     } else {
-        $seatings[$split[0]][$nextTo] = -intval($num);
+        $seatings[$name][$nextTo] = -intval($num);
     }
 
-    if (!in_array($split[0], $keys)) {
-        array_push($keys, $split[0]);
+    if (!in_array($name, $keys)) {
+        array_push($keys, $name);
     }
 }
 
@@ -31,16 +28,15 @@ foreach (permute($keys) as $order) {
     $currentHappiness = 0;
 
     for ($i=0, $_l = count($order); $i < $_l; $i++) {
-        $current = $i;
         $left = ($i - 1) % $_l;
         $right = ($i + 1) % $_l;
 
         if ($left < 0)
         {
-            $left += abs($_l);
+            $left += $_l;
         }
 
-        $currentHappiness += ($seatings[$order[$current]][$order[$left]] + $seatings[$order[$current]][$order[$right]]);
+        $currentHappiness += ($seatings[$order[$i]][$order[$left]] + $seatings[$order[$i]][$order[$right]]);
     }
 
     if ($currentHappiness > $bestHappiness) {
