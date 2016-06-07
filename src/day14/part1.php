@@ -42,3 +42,5 @@ foreach ($reindeers as $deer) {
 }
 
 echo "And the winner is: {$mostdistancetravelled}", "\n";
+
+DisplayElapsedTime($time_start);
