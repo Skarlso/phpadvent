@@ -16,6 +16,9 @@ $bestScore = 0;
 for (;;) {
 
     $currentScore = 0;
+    if (array_sum($iCount) > 100) {
+        continue;
+    }
 
     $cal = $iCount[0] * $ingreedients['Sprinkles']['capacity'] +
            $iCount[1] * $ingreedients['Butterscotch']['capacity'] +
