@@ -6,54 +6,56 @@ $iCount = [1, 1, 1, 1];
 
 foreach ($lines as $line) {
     list($name, $_, $capacity, $_, $durability, $_, $flavour, $_, $texture, $_, $calories) = explode(' ', $line);
-    $ingreedients[trim($name, ":")] = ['capacity' => trim($capacity, ","), 'durability' => trim($durability, ","),
-                         'flavour' => trim($flavour, ","), 'texture' => trim($texture, ","),
-                         'calories' => trim($calories, ",")];
+    $ingreedients[trim($name, ":")] = ['capacity' => intval(trim($capacity, ",")), 'durability' => intval(trim($durability, ",")),
+                         'flavour' => intval(trim($flavour, ",")), 'texture' => intval(trim($texture, ",")),
+                         'calories' => intval(trim($calories, ","))];
 }
 
 $bestScore = 0;
 // Optimize this later.
 for (;;) {
+    if ($iCount[0] == 97) {
+        break;
+    }
 
     $currentScore = 0;
-    if (array_sum($iCount) > 100) {
+    if (array_sum($iCount) != 100) {
         increaseIngredientCount($iCount, count($iCount) - 1);
         continue;
     }
 
-    $cal = $iCount[0] * $ingreedients['Sprinkles']['capacity'] +
+    $cap = $iCount[0] * $ingreedients['Sprinkles']['capacity'] +
            $iCount[1] * $ingreedients['Butterscotch']['capacity'] +
            $iCount[2] * $ingreedients['Chocolate']['capacity'] +
            $iCount[3] * $ingreedients['Candy']['capacity'];
+
+    $cap = (abs($cap) + $cap) / 2;
 
     $dur = $iCount[0] * $ingreedients['Sprinkles']['durability'] +
            $iCount[1] * $ingreedients['Butterscotch']['durability'] +
            $iCount[2] * $ingreedients['Chocolate']['durability'] +
            $iCount[3] * $ingreedients['Candy']['durability'];
+    $dur = (abs($dur) + $dur) / 2;
 
     $fla = $iCount[0] * $ingreedients['Sprinkles']['flavour'] +
            $iCount[1] * $ingreedients['Butterscotch']['flavour'] +
            $iCount[2] * $ingreedients['Chocolate']['flavour'] +
            $iCount[3] * $ingreedients['Candy']['flavour'];
+    $fla = (abs($fla) + $fla) / 2;
 
     $tex = $iCount[0] * $ingreedients['Sprinkles']['texture'] +
            $iCount[1] * $ingreedients['Butterscotch']['texture'] +
            $iCount[2] * $ingreedients['Chocolate']['texture'] +
            $iCount[3] * $ingreedients['Candy']['texture'];
+    $tex = (abs($tex) + $tex) / 2;
 
-    $currentScore = $cal * $dur * $fla * $tex;
+    $currentScore = $cap * $dur * $fla * $tex;
 
     if ($currentScore >= $bestScore) {
         $bestScore = $currentScore;
     }
 
     increaseIngredientCount($iCount, count($iCount) - 1);
-    if ($iCount[0] == 97) {
-        break;
-    }
-
-    // echo "Best score so far: {$bestScore}\n";
-    // print_r($iCount);
 }
 
 echo "Best score: {$bestScore}", "\n";
