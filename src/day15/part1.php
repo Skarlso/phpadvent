@@ -17,6 +17,7 @@ for (;;) {
 
     $currentScore = 0;
     if (array_sum($iCount) > 100) {
+        increaseIngredientCount($iCount, count($iCount) - 1);
         continue;
     }
 
@@ -51,7 +52,7 @@ for (;;) {
         break;
     }
 
-    echo "Best score so far: {$bestScore}\n";
+    // echo "Best score so far: {$bestScore}\n";
     // print_r($iCount);
 }
 
